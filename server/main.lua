@@ -50,21 +50,22 @@ RegisterServerEvent('AttackTransport:zawiadompsy', function(x ,y, z)
 end)
 
 RegisterServerEvent('AttackTransport:graczZrobilnapad', function()
-	local _source = source
-	local xPlayer = QBCore.Functions.GetPlayer(_source)
-	local bags = math.random(1,3)
-	local info = {
-		worth = math.random(Config.Payout.Min, Config.Payout.Max)
-	}
-	xPlayer.Functions.AddItem('markedbills', bags, false, info)
-	TriggerClientEvent('inventory:client:ItemBox', _source, QBCore.Shared.Items['markedbills'], "add")
+    local _source = source
+    local xPlayer = QBCore.Functions.GetPlayer(_source)
+    local bags = math.random(1,3)
+    local info = {
+        worth = math.random(cashA, cashB)
+    }
+    xPlayer.Functions.AddItem('markedbills', bags, false, info)
+    TriggerClientEvent('inventory:client:ItemBox', _source, QBCore.Shared.Items['markedbills'], "add")
 
-	local chance = math.random(1, 100)
-	TriggerClientEvent('QBCore:Notify', _source, 'You took '..bags..' bags of cash from the van')
-
-	if chance >= 95 then
-		xPlayer.Functions.AddItem('security_card_01', 1)
-		TriggerClientEvent('inventory:client:ItemBox', _source, QBCore.Shared.Items['security_card_01'], "add")
-	end
-	Wait(2500)
+    local chance = math.random(1, 100)
+    TriggerClientEvent('QBCore:Notify', _source, 'You took '..bags..' bags of cash from the van')
+    TriggerEvent('qb-log:server:CreateLog', 'ChangeMe', 'Truck Robbery', 'yellow', '**Name:** ' .. GetPlayerName(_source) .. '\n **License:** ||(' .. xPlayer.PlayerData.license .. ')||\n **Info:** Robbed (Armored Truck) and recieved ' .. bags .. ' Bags Of Cash')
+    if chance >= 95 then
+        xPlayer.Functions.AddItem('security_card_01', 1)
+        TriggerClientEvent('inventory:client:ItemBox', _source, QBCore.Shared.Items['security_card_01'], "add")
+        TriggerEvent('qb-log:server:CreateLog', 'testing', 'Truck Robbery', 'yellow', '**Name:** ' .. GetPlayerName(_source) .. '\n **License:** ||(' .. xPlayer.PlayerData.license .. ')||\n **Info:** Robbed (Armored Truck) and recieved a bank security card')
+    end
+    Wait(2500)
 end)
